@@ -25,3 +25,9 @@ steps:
   inputs:
     solution: '$(solution)'
     msbuildArchitecture: 'x64'
+- task: ContainerBuild@0
+  inputs:
+    dockerRegistryServiceConnection: 'openshift_registry'
+    repository: 'azure-deploy/eshop_legacy_mvc_solution'
+    Dockerfile: 'Dockerfile'
+    tags: 'latest'
