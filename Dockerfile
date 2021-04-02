@@ -3,8 +3,10 @@
 
 FROM mcr.microsoft.com/dotnet/framework/aspnet:4.7.2
 WORKDIR /inetpub/wwwroot
-COPY . .
-ENTRYPOINT ["dotnet" ,"eShopLegacyMVC.dll"]
+RUN icacls 'c:/inetpub/wwwroot' /grant 'Everyone:(OI)(CI)F'
+COPY . /inetpub/wwwroot
+#RUN ls src\eShopLegacyMVC\bin\eShopLegacyMVC.dll
+#ENTRYPOINT ["dotnet" ,".\src\eShopLegacyMVC\bin\eShopLegacyMVC.dll"]
 
 
 # FROM microsoft/dotnet-framework:4.7.2-sdk AS build
