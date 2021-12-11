@@ -27,7 +27,7 @@ steps:
     msbuildArchitecture: 'x64'
 - task: ContainerBuild@0
   inputs:
-    dockerRegistryServiceConnection: 'quay_registry'
+    dockerRegistryServiceConnection: 'openshift_registry'
     repository: 'houssembenhmida/eshop_legacy_mvc_solution'
     Dockerfile: 'Dockerfile'
     tags: 'latest'
