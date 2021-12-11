@@ -28,6 +28,6 @@ steps:
 - task: ContainerBuild@0
   inputs:
     dockerRegistryServiceConnection: 'openshift_registry'
-    repository: 'houssembenhmida/eshop_legacy_mvc_solution'
+    repository: 'test/ms-app'
     Dockerfile: 'Dockerfile'
     tags: 'latest'
