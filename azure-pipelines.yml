@@ -18,20 +18,20 @@ variables:
 steps:
 
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: '$(solution)'
-- task: MSBuild@1
-  inputs:
-    solution: '$(solution)'
-    msbuildArchitecture: 'x64'
-- task: ContainerBuild@0
-  inputs:
-    dockerRegistryServiceConnection: 'openshift_registry'
-    repository: 'test/ms-app'
-    Dockerfile: 'Dockerfile'
-    tags: 'latest'
+# - task: NuGetCommand@2
+#   inputs:
+#     command: 'restore'
+#     restoreSolution: '$(solution)'
+# - task: MSBuild@1
+#   inputs:
+#     solution: '$(solution)'
+#     msbuildArchitecture: 'x64'
+# - task: ContainerBuild@0
+#   inputs:
+#     dockerRegistryServiceConnection: 'openshift_registry'
+#     repository: 'test/ms-app'
+#     Dockerfile: 'Dockerfile'
+#     tags: 'latest'
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
