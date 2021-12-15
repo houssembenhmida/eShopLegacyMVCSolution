@@ -41,4 +41,4 @@ steps:
   inputs:
     connectionType: 'OpenShift Connection Service'
     openshiftService: 'openshift cluster'
-    cmd: 'oc rollout latest "win-webserver"'
+    cmd: 'oc rollout latest "win-webserver" -n test'
