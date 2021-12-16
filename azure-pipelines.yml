@@ -41,4 +41,9 @@ steps:
   inputs:
     connectionType: 'OpenShift Connection Service'
     openshiftService: 'openshift cluster'
+    cmd: 'oc -n openshift-windows-machine-config-operator rsh deploy/winc-ssh /usr/bin/ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/ssh/private-key.pem administrator@ip-10-0-152-156.us-east-2.compute.internal powershell "docker login -u admin -p ${env:OCP_REGISTRY_SECRET} default-route-openshift-image-registry.apps.cluster-f2ngn.f2ngn.sandbox753.opentlc.com & docker pull default-route-openshift-image-registry.apps.cluster-f2ngn.f2ngn.sandbox753.opentlc.com/test/ms-app"'
+- task: oc-cmd@2
+  inputs:
+    connectionType: 'OpenShift Connection Service'
+    openshiftService: 'openshift cluster'
     cmd: 'oc rollout restart deployment/win-webserver -n test'
