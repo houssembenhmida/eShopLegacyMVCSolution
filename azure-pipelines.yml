@@ -14,24 +14,30 @@ variables:
   solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
+  registryURL: 'default-route-openshift-image-registry.apps.cluster-f2ngn.f2ngn.sandbox753.opentlc.com'
+  imageRepo: 'test'
+  imageName: 'ms-app'
+  imageTag: 'latest'
+  deploymentName: 'win-webserver'
+  openshiftWindowsWorkerDomain: 'ip-10-0-152-156.us-east-2.compute.internal'
 
 steps:
 
 
-# - task: NuGetCommand@2
-#   inputs:
-#     command: 'restore'
-#     restoreSolution: '$(solution)'
-# - task: MSBuild@1
-#   inputs:
-#     solution: '$(solution)'
-#     msbuildArchitecture: 'x64'
-# - task: ContainerBuild@0
-#   inputs:
-#     dockerRegistryServiceConnection: 'openshift_registry'
-#     repository: 'test/ms-app'
-#     Dockerfile: 'Dockerfile'
-#     tags: 'latest'
+- task: NuGetCommand@2
+  inputs:
+    command: 'restore'
+    restoreSolution: '$(solution)'
+- task: MSBuild@1
+  inputs:
+    solution: '$(solution)'
+    msbuildArchitecture: 'x64'
+- task: ContainerBuild@0
+  inputs:
+    dockerRegistryServiceConnection: 'openshift_registry'
+    repository: 'test/ms-app'
+    Dockerfile: 'Dockerfile'
+    tags: 'latest'
 # - task: oc-cmd@2
 #   inputs:
 #     connectionType: 'OpenShift Connection Service'
@@ -41,7 +47,7 @@ steps:
   inputs:
     connectionType: 'OpenShift Connection Service'
     openshiftService: 'openshift cluster'
-    cmd: 'oc -n openshift-windows-machine-config-operator rsh deploy/winc-ssh /usr/bin/ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/ssh/private-key.pem administrator@ip-10-0-152-156.us-east-2.compute.internal powershell "echo $(OCP_REGISTRY_SECRET) & docker login -u admin -p $(OCP_REGISTRY_SECRET) default-route-openshift-image-registry.apps.cluster-f2ngn.f2ngn.sandbox753.opentlc.com & docker pull default-route-openshift-image-registry.apps.cluster-f2ngn.f2ngn.sandbox753.opentlc.com/test/ms-app"'
+    cmd: 'oc -n openshift-windows-machine-config-operator rsh deploy/winc-ssh /usr/bin/ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /tmp/ssh/private-key.pem administrator@$(openshiftWindowsWorkerDomain) powershell "docker login -u admin -p $(OCP_REGISTRY_SECRET) $(registryURL) & docker pull $(registryURL)/$(imageRepo)/$(imageName):$(imageTag)"'
 - task: oc-cmd@2
   inputs:
     connectionType: 'OpenShift Connection Service'
